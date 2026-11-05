@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misteri di Sebalik Sungai</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{background:#f9d6e6;overflow-x:hidden;font-family:Nunito,sans-serif}
+.stage{position:relative;width:100%;max-width:1600px;margin:0 auto;aspect-ratio:3/2;overflow:hidden;container-type:inline-size;background:#bfe3f5}
+.world{position:absolute;inset:0;transition:transform .3s ease-out;animation:cam 3.2s ease-out 1.2s both}
+@keyframes cam{from{transform:scale(1.07)}to{transform:scale(1)}}
+.world img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.fx{position:absolute;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);background-size:250% 100%;animation:shine 4.5s linear infinite}
+@keyframes shine{from{background-position:150% 0}to{background-position:-100% 0}}
+.fx.river{left:5%;top:30%;width:60%;height:30%;clip-path:polygon(0 40%,40% 0,100% 20%,100% 80%,50% 100%,0 70%);opacity:.55}
+.fx.fall{left:72.5%;top:14%;width:5%;height:18%;animation-duration:1.6s;opacity:.7}
+.fx.sun{left:0;top:0;width:100%;height:35%;background:radial-gradient(ellipse at 70% 0,rgba(255,250,200,.5),transparent 60%);animation:glow 5s ease-in-out infinite alternate}
+@keyframes glow{to{opacity:.3}}
+.sp{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(#fff,#fff0);animation:rise linear infinite}
+@keyframes rise{from{transform:translateY(0);opacity:0}20%{opacity:1}to{transform:translateY(-45cqw);opacity:0}}
+.bf{position:absolute;left:23.5%;top:9%;width:4.4%;pointer-events:none;animation:fly 10s ease-in-out infinite alternate;font-size:3.2cqw;line-height:1}
+@keyframes fly{50%{transform:translate(8cqw,-2cqw) rotate(12deg)}to{transform:translate(-2cqw,3cqw) rotate(-8deg)}}
+.hs{position:absolute;transform:translate(-50%,-50%);display:block;border-radius:50%;cursor:pointer}
+.hs.pin{width:6.4%;aspect-ratio:1}
+.hs.pin:after{content:"";position:absolute;inset:0;border-radius:50%;border:.3cqw solid rgba(245,0,143,.0);box-shadow:0 0 0 0 rgba(245,0,143,.55);animation:ping 2.6s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(245,0,143,.55)}80%,100%{box-shadow:0 0 0 1.6cqw rgba(245,0,143,0)}}
+.hs.pin:hover,.hs.pin:focus-visible{transform:translate(-50%,-50%) scale(1.18);background:radial-gradient(rgba(255,255,255,.35),transparent 70%)}
+.hs.pin{transition:transform .2s}
+.hs.btn{border-radius:5cqw;transform:none;transition:transform .2s,box-shadow .2s}
+.hs.btn:hover,.hs.btn:focus-visible{transform:scale(1.04);box-shadow:0 0 3cqw rgba(255,255,255,.9),0 0 2cqw #F5008F}
+.tip{position:absolute;bottom:105%;left:50%;transform:translateX(-50%);background:#F5008F;color:#fff;font:700 1.15cqw Fredoka;padding:.3cqw .9cqw;border-radius:99px;border:.2cqw solid #fff;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.hs:hover .tip,.hs:focus-visible .tip{opacity:1}
+a:focus-visible,button:focus-visible,li:focus-visible{outline:.3cqw solid #FFD93B;outline-offset:.2cqw}
+.cur{position:absolute;top:0;bottom:0;width:51%;z-index:30;pointer-events:none;background:repeating-linear-gradient(90deg,#f5008f 0 2.2cqw,#ff5db4 3cqw,#c4006f 4.4cqw,#f5008f 5.2cqw);box-shadow:0 0 4cqw rgba(0,0,0,.5);transition:transform 1.8s cubic-bezier(.7,0,.3,1) .25s}
+.cur.l{left:0}.cur.r{right:0}
+.cur:after{content:"🎀";position:absolute;top:45%;font-size:6cqw}.l:after{right:-2cqw}.r:after{left:-2cqw}
+.open .l{transform:translateX(-102%)}.open .r{transform:translateX(102%)}
+/* MUSIC CORNER */
+.mc{position:absolute;left:75.3%;top:76%;width:23.2%;height:17.6%;z-index:10;background:linear-gradient(#fff,#ffe6f2);border:.35cqw solid #F5008F;border-radius:2cqw;box-shadow:0 .8cqw 2cqw rgba(0,0,0,.3);padding:.7cqw .9cqw;display:flex;flex-direction:column;justify-content:space-between;color:#526B4C;font-size:.95cqw}
+.r1{display:flex;align-items:center;gap:.8cqw}
+.ic{flex:none;width:4.4cqw;height:4.4cqw;border-radius:50%;border:0;background:radial-gradient(circle at 30% 25%,#ff6fb5,#F5008F 60%,#a8005f);color:#fff;font-size:2.2cqw;box-shadow:0 .4cqw .8cqw rgba(0,0,0,.3),inset 0 .2cqw .4cqw rgba(255,255,255,.6)}
+.tt{flex:1;min-width:0}.tt b{display:block;font:700 1.15cqw Fredoka;color:#333;line-height:1.1}
+#now{display:block;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.95cqw}
+#art{display:block;font-weight:700;color:#888;font-size:.85cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq{display:flex;align-items:flex-end;gap:.18cqw;height:2cqw}.eq i{width:.3cqw;height:.4cqw;background:#F5008F;border-radius:2px}
+.on .eq i{animation:eq .6s ease-in-out infinite alternate}.eq i:nth-child(2n){animation-delay:.2s}.eq i:nth-child(3n){animation-delay:.35s}
+@keyframes eq{to{height:2cqw}}
+.x{position:absolute;top:-1cqw;right:-1cqw;width:2.4cqw;height:2.4cqw;border-radius:50%;border:.2cqw solid #fff;background:#F5008F;color:#fff;font:700 1.2cqw/1 Fredoka;cursor:pointer;box-shadow:0 .3cqw .6cqw rgba(0,0,0,.35)}
+.r2{display:flex;align-items:center;gap:.5cqw}
+.cb{flex:none;width:2.8cqw;height:2.8cqw;border-radius:50%;border:.2cqw solid #fff;background:radial-gradient(circle at 30% 25%,#ff7cc0,#F5008F 65%,#b8006b);color:#fff;font-size:1.1cqw;cursor:pointer;box-shadow:0 .3cqw .5cqw rgba(0,0,0,.3);display:grid;place-items:center}
+.cb.big{width:3.4cqw;height:3.4cqw;font-size:1.4cqw}.cb:hover{filter:brightness(1.12)}
+input[type=range]{accent-color:#F5008F;min-width:0;height:1.2cqw;cursor:pointer}
+#vol{flex:1}.r3{display:flex;align-items:center;gap:.6cqw;font-weight:800;font-size:.85cqw}#bar{flex:1}
+#pl{position:absolute;left:0;right:0;bottom:104%;max-height:11cqw;overflow:auto;list-style:none;padding:.5cqw;background:#fff;border:.3cqw solid #F5008F;border-radius:1.4cqw;display:none;box-shadow:0 .6cqw 1.6cqw rgba(0,0,0,.3)}
+#pl.show{display:block}#pl li{padding:.4cqw .7cqw;border-radius:.8cqw;cursor:pointer;font-weight:800;font-size:1cqw}#pl li.cur2{background:#F4A6B8}#pl li:hover{background:#ffe0ee}
+.mini{display:none;position:absolute;inset:0;border-radius:inherit;background:linear-gradient(#fff,#ffe6f2);place-items:center}
+.closed .mini{display:grid}.mini button{border:0;background:none;font:700 1.3cqw Fredoka;color:#F5008F;cursor:pointer}
+.quick{display:none}
+@media(max-width:760px){
+.mc{position:relative;left:auto;top:auto;width:92%;height:auto;margin:4% auto;font-size:13px;padding:12px;gap:10px}
+.stage{aspect-ratio:auto;overflow:visible;container-type:normal;background:#f9d6e6}
+.world{position:relative;aspect-ratio:3/2;overflow:hidden;animation:none}.cur{display:none}
+.ic{width:46px;height:46px;font-size:22px}.tt b{font-size:14px}#now{font-size:13px}#art{font-size:12px}.cb{width:38px;height:38px;font-size:15px}.cb.big{width:44px;height:44px}.x{width:28px;height:28px;font-size:14px;top:-8px;right:-4px}.r3{font-size:12px}input[type=range]{height:18px}.eq{height:22px}#pl li{font-size:14px}#pl{max-height:150px}.tip{display:none}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 4%}
+.quick a{padding:12px;border-radius:99px;background:#F5008F;color:#fff;border:3px solid #fff;font:700 14px Fredoka;text-align:center;text-decoration:none;box-shadow:0 4px 0 #9c0059}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cur{display:none}}
+</style></head><body>
+<main class="stage" id="stage">
+<div class="world" id="world">
+<img src="bg.jpg" alt="Kampung Seri Damai – Misteri di Sebalik Sungai" width="1536" height="1024">
+<div class="fx sun"></div><div class="fx river"></div><div class="fx fall"></div><div class="bf">🦋</div><div id="sp"></div>
+<!-- Butang -->
+<a class="hs btn" href="#" data-k="PAGE_INTRO_URL" style="left:31.8%;top:38.6%;width:36%;height:7.3%" aria-label="Tekan butang di bawah untuk mula"></a>
+<a class="hs btn" href="#" data-k="PAGE_INTRO_URL" style="left:10.9%;top:63.3%;width:15.2%;height:4.3%" aria-label="Kenali kisah ini"></a>
+<!-- 7 penanda peta -->
+<a class="hs pin" href="#" data-k="PAGE_HOME_URL" style="left:79.1%;top:38.6%" aria-label="Laman Utama"><span class="tip">Laman Utama</span></a>
+<a class="hs pin" href="#" data-k="PAGE_INTRO_URL" style="left:89.1%;top:41.5%" aria-label="Pengenalan Cerita"><span class="tip">Pengenalan Cerita</span></a>
+<a class="hs pin" href="#" data-k="PAGE_TEACHER_URL" style="left:91.8%;top:48.8%" aria-label="Panduan Guru"><span class="tip">Panduan Guru</span></a>
+<a class="hs pin" href="#" data-k="PAGE_STUDENT_URL" style="left:90.6%;top:58.4%" aria-label="Panduan Murid"><span class="tip">Panduan Murid</span></a>
+<a class="hs pin" href="#" data-k="PAGE_MISSION_1_URL" style="left:81.1%;top:59.6%" aria-label="Misi 1"><span class="tip">Misi 1</span></a>
+<a class="hs pin" href="#" data-k="PAGE_MISSION_2_URL" style="left:73.4%;top:57.1%" aria-label="Misi 2"><span class="tip">Misi 2</span></a>
+<a class="hs pin" href="#" data-k="PAGE_MISSION_3_URL" style="left:73.9%;top:46.4%" aria-label="Misi 3"><span class="tip">Misi 3</span></a>
+</div>
+<div class="quick">
+<a href="#" data-k="PAGE_HOME_URL">🏠 Laman Utama</a><a href="#" data-k="PAGE_INTRO_URL">📖 Pengenalan Cerita</a><a href="#" data-k="PAGE_TEACHER_URL">🎓 Panduan Guru</a><a href="#" data-k="PAGE_STUDENT_URL">🧭 Panduan Murid</a><a href="#" data-k="PAGE_MISSION_1_URL">🔭 Misi 1</a><a href="#" data-k="PAGE_MISSION_2_URL">🔎 Misi 2</a><a href="#" data-k="PAGE_MISSION_3_URL" style="grid-column:span 2">🏆 Misi 3</a></div>
+<div class="cur l"></div><div class="cur r"></div>
+<!-- MUSIC CORNER -->
+<aside class="mc" id="mc" aria-label="Music Corner – Sungai Harmoni">
+<ul id="pl"></ul>
+<button class="x" id="x" aria-label="Tutup">✕</button>
+<div class="r1"><button class="ic" id="ic" aria-label="Senarai lagu">♪</button><div class="tt"><b>MUSIC CORNER<br>Sungai Harmoni</b><span id="now">Belum ada lagu dimasukkan.</span><span id="art"></span></div><div class="eq"><i></i><i></i><i></i><i></i><i></i></div></div>
+<div class="r2"><button class="cb" id="prev" aria-label="Sebelumnya">⏮</button><button class="cb big" id="pp" aria-label="Main">▶</button><button class="cb" id="next" aria-label="Seterusnya">⏭</button><button class="cb" id="mute" aria-label="Senyap">🔊</button><input id="vol" type="range" min="0" max="1" step=".05" value=".7" aria-label="Volum"><button class="cb" id="lst" aria-label="Playlist">☰</button></div>
+<div class="r3"><span id="cT">0:00</span><input id="bar" type="range" min="0" max="100" value="0" step=".1" aria-label="Kemajuan"><span id="dT">0:00</span></div>
+<div class="mini"><button id="open">🎵 Buka Music Corner</button></div>
+</aside>
+</main>
+<script>
+/* ===== EDIT: URL halaman Google Sites anda (kosong = amaran dipaparkan) ===== */
+const URLS={PAGE_HOME_URL:"",PAGE_INTRO_URL:"",PAGE_TEACHER_URL:"",PAGE_STUDENT_URL:"",PAGE_MISSION_1_URL:"",PAGE_MISSION_2_URL:"",PAGE_MISSION_3_URL:""};
+/* Lagu berada dalam folder yang sama dengan fail ini, jadi biarkan kosong */
+const MUSIC_BASE_URL="";
+/* ===== EDIT: PLAYLIST. Tambah/buang/ubah objek. file = nama fail dalam folder di atas (atau letak URL penuh dalam src) ===== */
+const MUSIC_PLAYLIST=[
+{title:"Selamat Tinggal Magika (Karaoke)",artist:"Mawi, Diana Danielle, Maya Karin, Ziana Zain & Ning Baizura",file:"lagu1.mp3"},
+{title:"drop dead (Instrumental)",artist:"Olivia Rodrigo",file:"lagu2.mp3"},
+{title:"Helikopter Turun Ke Padang x Babat Babat (Slow)",artist:"DJ Maman Fvndy",file:"lagu3.mp3"},
+{title:"Chan Mali Chan (Instrumental)",artist:"Lagu Rakyat",file:"lagu4.mp3"},
+{title:"Rasa Sayang",artist:"Lagu Rakyat Malaysia",file:"lagu5.mp3"}
+].map(t=>({...t,src:t.src||(t.file?MUSIC_BASE_URL+t.file:"")}));
+/* ===== Kod di bawah tidak perlu diubah ===== */
+const $=i=>document.getElementById(i),rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+document.querySelectorAll("[data-k]").forEach(a=>a.onclick=e=>{e.preventDefault();const u=URLS[a.dataset.k];u?window.open(u,"_top"):alert("URL belum diisi: "+a.dataset.k)});
+addEventListener("load",()=>setTimeout(()=>$("stage").classList.add("open"),250));
+if(!rm){const w=$("world");$("stage").addEventListener("mousemove",e=>{if(innerWidth<761)return;const r=w.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;w.style.transform=`scale(1.03) translate(${-x*14}px,${-y*9}px)`});
+for(let i=0;i<24;i++){const s=document.createElement("i");s.className="sp";const z=.4+Math.random()*.7;s.style.cssText=`width:${z}cqw;height:${z}cqw;left:${Math.random()*100}%;top:${40+Math.random()*60}%;animation-duration:${8+Math.random()*9}s;animation-delay:-${Math.random()*12}s`;$("sp").appendChild(s)}}
+const T=MUSIC_PLAYLIST.filter(t=>t&&t.src),au=new Audio(),mc=$("mc");let cur=-1;au.preload="none";au.volume=.7;
+const direct=u=>{const m=u.match(/drive\.google\.com\/file\/d\/([^/?]+)/)||u.match(/[?&]id=([^&]+)/);return m?"https://drive.google.com/uc?export=download&id="+m[1]:u};
+const fmt=s=>isFinite(s)?Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0"):"0:00";
+T.forEach((t,i)=>{const li=document.createElement("li");li.tabIndex=0;li.textContent=`${i+1}. ${t.title}${t.artist?" – "+t.artist:""}`;li.onclick=()=>load(i);li.onkeydown=e=>e.key==="Enter"&&load(i);$("pl").appendChild(li)});
+function mark(){[...$("pl").children].forEach((c,k)=>c.classList.toggle("cur2",k===cur))}
+function load(i){if(!T.length)return;cur=(i+T.length)%T.length;au.src=direct(T[cur].src);$("now").textContent=T[cur].title;$("art").textContent=T[cur].artist||"";$("bar").value=0;mark();au.play().catch(()=>err())}
+function err(){mc.classList.remove("on");$("pp").textContent="▶";$("now").textContent="Lagu tidak dapat dimainkan. Semak URL atau perkongsian fail."}
+au.onerror=()=>{if(au.src)err()};
+if(!T.length&&MUSIC_PLAYLIST.length)$("now").textContent="Belum ada lagu dimasukkan.";
+if(T.length){$("now").textContent="Tekan ▶ untuk mula";$("art").textContent=T.length+" lagu"}
+$("pp").onclick=()=>{if(!T.length)return;cur<0?load(0):au.paused?au.play().catch(err):au.pause()};
+$("next").onclick=()=>T.length&&load(cur+1);$("prev").onclick=()=>T.length&&load(cur<0?0:cur-1);
+au.onplay=()=>{mc.classList.add("on");$("pp").textContent="⏸"};au.onpause=()=>{mc.classList.remove("on");$("pp").textContent="▶"};au.onended=()=>T.length>1?load(cur+1):au.pause();
+au.ontimeupdate=()=>{if(au.duration)$("bar").value=au.currentTime/au.duration*100;$("cT").textContent=fmt(au.currentTime)};au.onloadedmetadata=()=>$("dT").textContent=fmt(au.duration);
+$("bar").oninput=e=>{if(au.duration)au.currentTime=e.target.value/100*au.duration};
+$("vol").oninput=e=>{au.volume=+e.target.value;au.muted=false;$("mute").textContent="🔊"};$("mute").onclick=()=>{au.muted=!au.muted;$("mute").textContent=au.muted?"🔇":"🔊"};
+$("lst").onclick=$("ic").onclick=()=>$("pl").classList.toggle("show");
+$("x").onclick=()=>{au.pause();$("pl").classList.remove("show");mc.classList.add("closed")};$("open").onclick=()=>mc.classList.remove("closed");
+</script></body></html>
